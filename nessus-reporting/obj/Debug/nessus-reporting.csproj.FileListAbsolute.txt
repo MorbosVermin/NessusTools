@@ -1,0 +1,9 @@
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\nessus-reporting.dll
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\nessus-reporting.pdb
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\nessus-tools.dll
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\nessus-tools.pdb
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\obj\Debug\nessus-reporting.dll
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\obj\Debug\nessus-reporting.pdb
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\HtmlFooter.htm
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Debug\HtmlHeader.htm

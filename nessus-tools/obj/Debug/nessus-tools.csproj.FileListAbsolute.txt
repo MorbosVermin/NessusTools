@@ -1,0 +1,5 @@
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\bin\Debug\nessus-tools.dll
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\bin\Debug\nessus-tools.pdb
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\obj\Debug\nessus-tools.dll
+C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\obj\Debug\nessus-tools.pdb
