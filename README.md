@@ -1,7 +1,7 @@
 Nessus Tools
 =================================
 
-C# and PHP code to parse Nessus report (XML) files. 
+Java, C# and PHP code to parse Nessus report (XML) files. 
 
 * nessus-reporting - Small Nessus reporting library.
 
@@ -20,8 +20,6 @@ Example Usage
     
     php > include("./Nessus.lib.php");
     php > $scan = NessusClientData::parse("./225.nessus");
-    PHP Notice:  Parsed policy 'df6b653f-67b4-5966-8993-906834eeebd9-149813/Default_Vuln_Scan_JMO_With_Hostname_Not IP_Harris_SSH_Key' successfully. in /home/mduncan/Documents/My Projects/dotnet/nessus-tools/NessusTools/php/Nessus.lib.php on line 104
-    PHP Notice:  Parsed report 'Security Sweep' successfully. in /home/mduncan/Documents/My Projects/dotnet/nessus-tools/NessusTools/php/Nessus.lib.php on line 420
     php > foreach($scan->getReport()->getReportHosts() as $host)  { echo $host ."\n"; }
     35 report items/findings for host 192.168.50.101.
     42 report items/findings for host 192.168.50.100.
