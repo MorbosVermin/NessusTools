@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NessusTools" default="all">
+	<description>Tools for parsing Nessus scans.</description>
+	
+	<property name="project.name" value="NessusTools" />
+	<property name="project.version" value="0.1" />
+	<property name="project.author" value="Mike Duncan (mike.duncan@waitwha.com)" />
+	<property name="project.copyright" value="Copyright (c)2013 ${project.author}. Released under GPLv2. See COPYING for more information." />
+	<property name="project.manifest" value="NessusTools.manifest" />
+	<property name="project.sources" value="src" />
+	<property name="project.build" value="build" />
+	<property name="compiler.verbose" value="no" />
+	<property name="compiler.nowarn" value="off" />
+	<property name="compiler.debug" value="false" />
+	<property name="compiler.debuglevel" value="lines,vars,source" />
+	<property name="compiler.deprecation" value="false" />
+	<property name="compiler.source" value="1.6" />
+	<property name="compiler.target" value="1.6" />
+	
+	<target name="init" description="Initializes the build environment.">
+		<buildnumber />
+		<mkdir dir="${project.build}" />
+	</target>
+	
+	<target name="all" depends="compile,dist" description="Default, compiles and creates a distributable for this project." />
+	
+	<target name="compile" depends="init" description="Compiles the project.">
+		<echo message="${project.name} v${project.version}" />
+		<echo message="${project.copyright}" />
+		
+		<javac 
+			srcdir="${project.sources}"
+			destdir="${project.build}"
+			verbose="${compiler.verbose}"
+			deprecation="${compiler.deprecation}"
+			debug="${compiler.debug}"
+			debuglevel="${compiler.debuglevel}"
+			source="${compiler.source}"
+			target="${compiler.target}" />
+	
+	</target>
+	
+	<target name="dist" depends="compile" description="Creates a distributable package (JAR) of this project.">
+		
+		<jar destfile="${project.name}-${project.version}-${build.number}.jar"
+			basedir="${project.build}"
+			encoding="UTF-8"
+			manifest="${project.manifest}" />
+	
+	</target>
+	
+	<target name="clean" description="Cleans up the build directories.">
+		<delete dir="${project.build}" />
+		<delete verbose="true">
+			<fileset dir="." includes="${project.name}-${project.version}-*.jar" /> 
+		</delete>
+	</target>
+	
+</project>

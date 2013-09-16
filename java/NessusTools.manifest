@@ -1,0 +1,9 @@
+Main-Class: com.waitwha.nessus.NessusClientData
+
+Name: com/waitwha/nessus
+Specification-Title: NessusTools
+Specification-Version: 0.1
+Specification-Vendor: Mike Duncan (mike.duncan@waitwha.com)
+Implementation-Title: com.waitwha.nessus
+Implementation-Version: 0.1
+Implementation-Vendor: Mike Duncan (mike.duncan@waitwha.com)

@@ -8,7 +8,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import com.waitwha.logging.LogManager;
+import com.waitwha.nessus.Report.ReportHost;
+import com.waitwha.xml.ElementNotFoundException;
+import com.waitwha.xml.ElementUtils;
 
 /**
  * <b>NessusTools</b>: NessusClientData<br/>
@@ -39,9 +45,16 @@ public class NessusClientData {
 	private Policy policy;
 	private Report report;
 	
-	private NessusClientData(Document d)  {
-		this.policy = new Policy(d.getElementById("Policy"));
-		this.report = new Report(d.getElementById("Report"));
+	private NessusClientData(Document d) throws SAXException  {
+		Element e = (Element)d.getFirstChild(); //root
+		try  {
+			this.policy = new Policy(ElementUtils.getFirstElementByName(e, "Policy"));
+			this.report = new Report(ElementUtils.getFirstElementByName(e, "Report"));
+			
+		}catch(ElementNotFoundException ex)  {
+			throw new SAXException("Could not find either Policy/Report elements: "+ ex.getMessage());
+			
+		}
 	}
 	
 	public Report getReport()  {
@@ -52,6 +65,15 @@ public class NessusClientData {
 		return this.policy;
 	}
 	
+	/**
+	 * Returns, if parsed successfully, a NessusClientData object from the File given.
+	 * 
+	 * @param f	File to parse.
+	 * @return	NessusClientData
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	public static final NessusClientData getInstance(File f) throws ParserConfigurationException, SAXException, IOException  {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -60,10 +82,33 @@ public class NessusClientData {
 	}
 	
 	/**
+	 * Returns, if parsed successfully, a NessusClientData object from the File given.
+	 * 
+	 * @param f	File to parse.
+	 * @return NessusClientData
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
+	public static final NessusClientData parse(File f) throws ParserConfigurationException, SAXException, IOException {
+		return NessusClientData.getInstance(f);
+	}
+	
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+		LogManager.APP_NAME = "NessusTools"; //set logfile name.
+		
+		try {
+			NessusClientData scan = NessusClientData.parse(new File(args[0]));
+			for(ReportHost host : scan.getReport().getReportHosts())
+				System.out.println(host);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+		}
 	}
 
 }
