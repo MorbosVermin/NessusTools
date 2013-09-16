@@ -18,6 +18,7 @@ Example Usage
 Java
 
     # java -jar NessusTools-0.1-0.jar ../php/225.nessus 
+
     192.168.50.101 (35 ports, 'Linux Kernel 3.10 				Linux Kernel 3.5 				Linux Kernel 3.8 				Linux Kernel 3.9', 20 overall severity)
     192.168.50.100 (42 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 26 overall severity)
     192.168.50.151 (105 ports, 'Microsoft Windows Server 2008 R2 Standard Service Pack 1', 67 overall severity)
@@ -62,6 +63,7 @@ PHP
     php > include("./Nessus.lib.php");
     php > $scan = NessusClientData::parse("./225.nessus");
     php > foreach($scan->getReport()->getReportHosts() as $host)  { echo $host ."\n"; }
+
     192.168.50.101 (35 ports, 'Linux Kernel 3.10 				Linux Kernel 3.5 				Linux Kernel 3.8 				Linux Kernel 3.9', 20 overall severity)
     192.168.50.100 (42 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 26 overall severity)
     192.168.50.151 (105 ports, 'Microsoft Windows Server 2008 R2 Standard Service Pack 1', 67 overall severity)
@@ -98,3 +100,9 @@ PHP
     192.168.50.231 (20 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 9 overall severity)
     192.168.50.230 (42 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 24 overall severity)
 
+C#
+
+    NessusClientData_v2 scan = NessusClientData_v2.Parse("...");
+    for(ReportHost host in scan.Report.ReportHosts)
+    	Console.WriteLine("{0} ({1} ports, '{2}')", host, host.ReportItems.Count, host.OS);
+    
