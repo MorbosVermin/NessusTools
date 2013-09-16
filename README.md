@@ -5,11 +5,11 @@ Java, C# and PHP code to parse Nessus report (XML) files.
 
 * nessus-reporting - Small Nessus reporting library.
 
-* nessus-tools - The Nessus report parsing library. There is also some code to connect to a Nessus server and use the API to download reports.
+* nessus-tools - The Nessus report parsing library. There is also some code to connect to a Nessus server and use the API to download reports. This code was developed using Visual Studio 2012 Desktop Express Edition using .Net Framework v4.5.
 
-* php - PHP-based library to parse Nessus reports.
+* php - PHP-based library to parse Nessus reports. The PHP library uses the simplexml_load_file function to load the XML and then parses it into objects.
 
-* java - Java port of the NessusClientData class from PHP/C#.
+* java - Java port of the NessusClientData class from PHP/C#. The Java library uses no external libs/deps and primarily uses the org.w3c.dom package (Java 6 or 7).
 
 
 Example Usage
