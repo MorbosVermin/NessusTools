@@ -224,49 +224,116 @@ class Content  {
   
 }
 
+class NessusServerException extends Exception  {
+  
+  private $headers;
+  private $errno;
+  private $errmsg;
+  
+  public function __construct($headers, $errno, $errmsg)  {
+    parent::__construct("", -1);
+    $this->headers = $headers;
+    $this->errno = $errno;
+    $this->errmsg = $errmsg;
+  }
+  
+  public function get($name)  {
+    return $this->headers[$name];
+  }
+  
+  public function getErrorNo()  {
+    return $this->errno;
+  }
+  
+  public function getError()  {
+    return $this->errmsg;
+  }
+  
+  public function getMessage()  {
+    return sprintf("Error '%s (%d)' occurred while communicating/connecting to %s (request=%db, http_code=%d)",
+                    $this->errmsg,
+                    $this->errno,
+                    $this->get("url"),
+                    $this->get("request_size"),
+                    $this->get("http_code"));
+  }
+  
+}
+
 class NessusServer  {
   
   const USER_AGENT = "NessusServerAPI4PHP 1.0";
+  const CONNECT_TIMEOUT = 30;
+  const TIMEOUT = 30;
+  const ENCODING = "UTF-8";
   private $uri;
+  private $token;
   
   public function __construct($uri="https://localhost:8834")  {
     $this->uri = $uri;
+    $this->token = null;
   }
   
   public function getReply($path, $params)  {
+    
+    /*
+     * If we are given a string, then I will assume we have taken care of 
+     * encoding. However, if you send an array, I will do this for you. 
+     * Nice of me, eh? Remember to tip the server.
+     */
+    if(is_array($params))  {
+      $p = $params;
+      $params = "";
+      foreach($p as $k => $v)
+        $params += urlencode($k) +"="+ urlencode($v) +"&";
+      
+      $params = substr(0, strlen($params) - 1, $params);
+    }
+    
+    //cURL options
     $options = array( 
-        CURLOPT_RETURNTRANSFER => true,         // return web page 
-        CURLOPT_HEADER         => false,        // don't return headers 
-        CURLOPT_FOLLOWLOCATION => true,         // follow redirects 
-        CURLOPT_ENCODING       => "",           // handle all encodings 
-        CURLOPT_USERAGENT      => NessusServer::USER_AGENT,     // who am i 
-        CURLOPT_AUTOREFERER    => true,         // set referer on redirect 
-        CURLOPT_CONNECTTIMEOUT => 120,          // timeout on connect 
-        CURLOPT_TIMEOUT        => 120,          // timeout on response 
-        CURLOPT_MAXREDIRS      => 10,           // stop after 10 redirects 
-        CURLOPT_POST            => 1,            // i am sending post data 
-        CURLOPT_POSTFIELDS     => $params,    // this are my post vars 
-        CURLOPT_SSL_VERIFYHOST => 0,            // don't verify ssl 
-        CURLOPT_SSL_VERIFYPEER => false,        // 
-        CURLOPT_VERBOSE        => 1                // 
+        CURLOPT_RETURNTRANSFER => true, 
+        CURLOPT_HEADER         => false, 
+        CURLOPT_FOLLOWLOCATION => true, 
+        CURLOPT_ENCODING       => "", 
+        CURLOPT_USERAGENT      => NessusServer::USER_AGENT,
+        CURLOPT_AUTOREFERER    => true,
+        CURLOPT_CONNECTTIMEOUT => NessusServer::CONNECT_TIMEOUT,
+        CURLOPT_TIMEOUT        => NessusServer::TIMEOUT,
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_POST           => 1,
+        CURLOPT_POSTFIELDS     => $params,
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_VERBOSE        => 1
     );
-
+    
+    //If we are logged in, a Token is needed in the request cookies.
+    if(!is_null($this->token))
+      array_push($options, array(CURLOPT_COOKIE => "token="+ $this->token));
+    
+    //cURL initialization, configuration, and exec call.
+    trigger_error("Connecting to "+ $this->uri + $path +"...", E_USER_NOTICE);
     $ch      = curl_init($this->uri + $path); 
     curl_setopt_array($ch,$options); 
     $content = curl_exec($ch); 
+    
     $err     = curl_errno($ch); 
     $errmsg  = curl_error($ch); 
     $header  = curl_getinfo($ch); 
+    trigger_error("Received HTTP code "+ $header["http_code"] +" from "+ $this->uri + $path +" ("+ strlen($content) +"bytes)", E_USER_NOTICE);
+    trigger_error($content, E_USER_NOTICE);
+    
     curl_close($ch);
     
     if($err > 0)
-      throw new NessusServerException($header);
+      throw new NessusServerException($header, $errno, $errmsg);
     
     return new NessusServerReply(simplexml_load_string($content));
   }
   
   private function r()  {
-    return rand(1, 9999);
+    return mt_rand(1, 9999);
   }
   
   public function login($username, $password)  {
@@ -292,19 +359,8 @@ class NessusServer  {
     
     }catch(NessusServerException $e)  {
       trigger_error("Could not logout of server "+ $this->uri +": "+ $e->getMessage(), E_USER_WARNING);
-    }
-  }
-  
-  public function getServerInfo()  {
-    $reply = null;
-    try  {
-      $reply = $this->getReply("/server/load", sprintf("seq=%d", $this->r()));
     
-    }catch(NessusServerException $e)  {
-      
     }
-    
-    return $reply;
   }
   
   public function getReports()  {
@@ -313,20 +369,24 @@ class NessusServer  {
       $reply = $this->getReply("/report/list", sprintf("seq=%d", $this->r()));
     
     }catch(NessusServerException $e)  {
-      
+      trigger_error("Could not get reports from "+ $this->uri +": "+ $e->getMessage(), E_USER_ERROR);
     }
     
     return (!is_null($reply)) ? $reply->getContent()->getReports() : null;
   }
   
   public function downloadReport($uuid, $path)  {
-    $reply = null;
+    $report = null;
     try  {
-      $reply = $this->getReply("/file/report/download", sprintf("seq=%d&report=%s", $this->r(), $uuid));
+      $scan_xml = $this->getReply("/file/report/download", sprintf("seq=%d&report=%s", $this->r(), $uuid));
+      $report = new NessusReport(simplexml_load_string($scan_xml));
     
     }catch(NessusServerException $e)  {
-      
+      trigger_error("Could not download report from "+ $this->uri +": "+ $e->getMessage(), E_USER_ERROR);
+    
     }
+    
+    return $report;
   }
   
 }
