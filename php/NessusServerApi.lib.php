@@ -231,7 +231,12 @@ class NessusServerException extends Exception  {
   private $errmsg;
   
   public function __construct($headers, $errno, $errmsg)  {
-    parent::__construct("", -1);
+    parent::__construct(sprintf("Error '%s (%d)' occurred while communicating/connecting to %s (request=%db, http_code=%d)",
+                          $errmsg,
+                          $errno,
+                          $headers["url"],
+                          $headers["request_size"],
+                          $headers["http_code"]), -1);
     $this->headers = $headers;
     $this->errno = $errno;
     $this->errmsg = $errmsg;
@@ -247,15 +252,6 @@ class NessusServerException extends Exception  {
   
   public function getError()  {
     return $this->errmsg;
-  }
-  
-  public function getMessage()  {
-    return sprintf("Error '%s (%d)' occurred while communicating/connecting to %s (request=%db, http_code=%d)",
-                    $this->errmsg,
-                    $this->errno,
-                    $this->get("url"),
-                    $this->get("request_size"),
-                    $this->get("http_code"));
   }
   
 }
