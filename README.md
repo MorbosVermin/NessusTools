@@ -99,6 +99,16 @@ PHP
     192.168.50.233 (33 ports, 'Linux Kernel 2.6 on CentOS Linux release 6', 11 overall severity)
     192.168.50.231 (20 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 9 overall severity)
     192.168.50.230 (42 ports, 'Linux Kernel 3.10 Linux Kernel 3.5 Linux Kernel 3.8 Linux Kernel 3.9', 24 overall severity)
+    
+    php > include("NessusServerApi.lib.php");
+    php > $server = new NessusServer("https://localhost:8834");
+    php > $server->login("myuser", "mypass");
+    php > $scans = $server->getReports();
+    php > $parsed_scans = array();
+    php > foreach($scans as $scan) array_push($parsed_scans, $server->downloadReport($scan->getName(), $scan->getReadableName() .".nessus"));
+    
+    php > $scan = $server->downloadReport($report->getName(), "/tmp/". $report->getReadableName() .".nessus");
+    php > foreach($scan->getReport()->getReportHosts() as $host) echo $host ."\n"; 
 
 C#
 
