@@ -25,7 +25,8 @@ import com.waitwha.xml.ElementUtils;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * </pre>
  *
- * TODO Document this class/interface.
+ * Abstract class for reply's (responses) from the Server. All reply's have
+ * sequence (i.e. seq) and status fields and then some bit of content (ReplyContent).
  *
  * @author Mike Duncan <mike.duncan@waitwha.com>
  * @version $Id$
@@ -59,7 +60,25 @@ public abstract class ServerReply {
 	public String getStatus() {
 		return status;
 	}
+	
+	/**
+	 * Returns whether or not the Reply has a status of "OK". If not, 
+	 * this is likely a ErrorReply or an unhandled reply type.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isOk()  {
+		return this.status.equals("OK");
+	}
 
+	/**
+	 * Returns the contents of the reply. This can be anything really and in 
+	 * most cases for this codebase, it is the same class as a ServerReply 
+	 * derived class. This is because currently the ReplyContents interface 
+	 * is empty.
+	 * 
+	 * @return ReplyContents
+	 */
 	public abstract ReplyContents getContents();
 	
 }
