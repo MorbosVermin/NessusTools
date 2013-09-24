@@ -1,5 +1,9 @@
 package com.waitwha.logging;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -34,6 +38,53 @@ public class LogManager {
 	public static String APP_NAME = "appName";
 	public static Level DEFAULT_LOG_LEVEL = Level.ALL;
 	
+	private static boolean setup = false;
+	
+	/**
+	 * Checks to see if a file exists within user.dir by the name of
+	 * logging.properties. If so, the file is read using 
+	 * LogManager.readConfiguration. Otherwise, an included resource 
+	 * is read for this configuration.
+	 * 
+	 * @see java.util.logging.LogManager#readConfiguration(java.io.InputStream)
+	 */
+	private static final void setup()  {
+		//Initial configuration
+		try {
+			String path = LogManager.class.getPackage().getName().replace(".", "/");
+			java.util.logging.LogManager.getLogManager().readConfiguration(
+					LogManager.class.getResourceAsStream(String.format("/%s/logging.properties", path)));
+		
+		}catch(SecurityException e) {
+			e.printStackTrace();
+		
+		}catch(IOException e) {
+			e.printStackTrace();
+		
+		}
+		
+		//User overrides
+		File altConfig = new File(System.getProperty("user.dir"), "logging.properties");
+		if(altConfig.exists())  {
+			try {
+				java.util.logging.LogManager.getLogManager().readConfiguration(new FileInputStream(altConfig));
+			
+			}catch(SecurityException e) {	
+				e.printStackTrace();
+				
+			}catch(FileNotFoundException e) {
+				e.printStackTrace();
+			
+			}catch(IOException e) {
+				e.printStackTrace();
+			
+			}
+			
+		}
+		
+		setup = true;
+	}
+	
 	/**
 	 * Generates a Logger instance from the clazzName given. This will 
 	 * ensure that (1) the Logger instance is set to Level.INFO and (2)
@@ -45,29 +96,10 @@ public class LogManager {
 	 * @return	Logger
 	 */
 	public static final Logger getLogger(String clazzName)  {
-		Logger log = java.util.logging.Logger.getLogger(clazzName);
-		log.setLevel(LogManager.DEFAULT_LOG_LEVEL);
+		if(!setup)
+			setup();
 		
-		StandardLoggingFormatter formatter = new StandardLoggingFormatter();
-		for(Handler handler : log.getHandlers())  {
-			handler.setLevel(LogManager.DEFAULT_LOG_LEVEL);
-			handler.setFormatter(formatter);
-		}
-		
-		if(APP_NAME.equals("appName"))
-			return log; //No file logging enabled.
-		
-		try  {
-			FileHandler logFileHandler = new FileHandler(APP_NAME +".log");
-			logFileHandler.setLevel(LogManager.DEFAULT_LOG_LEVEL);
-			logFileHandler.setFormatter(formatter);
-			log.addHandler(logFileHandler);
-			
-		}catch(Exception e)  {
-			log.warning("Could not open/read log file '"+ APP_NAME +".log'");
-		}
-		
-		return log;
+		return java.util.logging.Logger.getLogger(clazzName);
 	}
 	
 }

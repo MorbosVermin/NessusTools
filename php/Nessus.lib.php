@@ -529,8 +529,8 @@ class ReportHost  {
   public function getOS()  {
     foreach($this->hostProperties as $tag)
       if(strcmp($tag->getName(), "operating-system") == 0)
-        return $tag->getValue();
-        
+        return trim($tag->getValue());
+    
     return "(unknown)";
   }
   
@@ -550,10 +550,25 @@ class ReportHost  {
     return $this->reportItems;
   }
   
+  /**
+   * Attempts to return the overall/true severity of this host.
+   *
+   * @return	int
+   */
+  public function getOverallSeverity()  {
+    $total = 0;
+    foreach($this->reportItems as $item)
+      $total += $item->getSeverity();
+      
+    return ($this->reportItems->size() - $total);
+  }
+  
   public function __toString()  {
-    return sprintf("%d report items/findings for host %s.", 
+    return sprintf("%s (%d ports, '%s', %d overall severity)", 
+      $this->name,
       $this->reportItems->size(),
-      $this->getName());
+      str_replace("\n", " ", $this->getOS()),
+      $this->getOverallSeverity());
   }
   
 }
@@ -707,7 +722,7 @@ class ReportItem  {
     return $this->riskFactor;
   }
   
-  public function getSoltuion()  {
+  public function getSolution()  {
     return $this->solution;
   }
   

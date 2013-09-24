@@ -354,7 +354,7 @@ class NessusServer  {
         CURLOPT_POSTFIELDS     => $params,
         CURLOPT_SSL_VERIFYHOST => 0,
         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_VERBOSE        => 0
+        CURLOPT_VERBOSE        => 1
     );
     
     //If we are logged in, a Token is needed in the request cookies.
