@@ -1,6 +1,8 @@
 package com.waitwha.nessus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Element;
@@ -38,9 +40,14 @@ import com.waitwha.xml.ElementUtils;
  * @version $Id$
  * @package com.waitwha.nessus
  */
-public class Report {
+public class Report implements Comparable<Report> {
 	
 	private static final Logger log = LogManager.getLogger(Report.class.getName());
+	
+	/**
+	 * Format of the HOST_START and HOST_END tags (i.e. Mon Sep  9 18:36:18 2013).
+	 */
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
 	
 	public class Tag  {
 		
@@ -314,7 +321,7 @@ public class Report {
 	 * Nessus) for this host.
 	 * 
 	 */
-	public class ReportHost {
+	public class ReportHost implements Comparable<ReportHost> {
 		
 		private String name;
 		private HostProperties hostProperties;
@@ -357,12 +364,73 @@ public class Report {
 			return reportItems;
 		}
 		
-		public String getOS()  {
-			for(Tag tag : this.hostProperties)
-				if(tag.getName().equals("operating-system"))
+		/**
+		 * Returns the value of the Tag by the String name given. If not
+		 * found, this will return <i>(unknown)</i> as the value.
+		 * 
+		 * @param tagName	name
+		 * @return String value
+		 */
+		private String getTagValue(String tagName)  {
+			for(Tag tag : hostProperties)  {
+				if(tag.getName().equals(tagName))
 					return tag.getValue();
+				
+			}
 			
 			return "(unknown)";
+		}
+		
+		/**
+		 * If the OS was determined, this will return the possible OS type 
+		 * via the HostProperties->Tag <i>operating-system</i> value. If not
+		 * found, scanned or otherwise unknown, <i>(unknown)</i> is returned.
+		 * 
+		 * @return OS
+		 */
+		public String getOS()  {
+			return getTagValue("operating-system");
+		}
+		
+		/**
+		 * Returns the value of the HostProperties->Tag <i>host-ip</i>.
+		 * 
+		 * @return IP Address of the host.
+		 */
+		public String getAddress()  {
+			return getTagValue("host-ip");
+		}
+		
+		/**
+		 * Returns the Date for which the scan began on this host.
+		 * 
+		 * @return	Date
+		 */
+		public Date getStartDate()  {
+			String hostStart = this.getTagValue("HOST_START");
+			Date r = new Date();
+			try  {
+				r = DATE_FORMAT.parse(hostStart);
+				
+			}catch(Exception e) {}
+			
+			return r;
+		}
+		
+		/**
+		 * Returns the Date for which the scan ended for this host.
+		 * 
+		 * @return	Date
+		 */
+		public Date getEndDate()  {
+			String hostEnd = this.getTagValue("HOST_END");
+			Date r = new Date();
+			try  {
+				r = DATE_FORMAT.parse(hostEnd);
+				
+			}catch(Exception e) {}
+			
+			return r;
 		}
 		
 		/**
@@ -391,10 +459,19 @@ public class Report {
 					this.getOS().trim().replaceAll("\\n", " "),
 					this.getOverallSeverity());
 		}
+
+		
+		@Override
+		public int compareTo(ReportHost o) {
+			return Integer.compare(getOverallSeverity(), o.getOverallSeverity());
+		}
 		
 	}
 	
+	
 	private ArrayList<ReportHost> reportHosts;
+	private Date startDate;
+	private Date endDate;
 	
 	/**
 	 * Constructor
@@ -406,10 +483,32 @@ public class Report {
 		NodeList reportHosts = report.getElementsByTagName("ReportHost");
 		for(int i = 0; i < reportHosts.getLength(); i++)  {
 			Element reportHost = (Element)reportHosts.item(i);
-			this.reportHosts.add(new ReportHost(reportHost));
+			
+			ReportHost host = new ReportHost(reportHost);
+			this.reportHosts.add(host);
+			if(startDate == null)
+				startDate = host.getStartDate();
+			
 		}
 		
+		if(this.reportHosts.size() > 0)
+			endDate = this.reportHosts.get(this.reportHosts.size() - 1).getEndDate();
+		
 		log.fine(String.format("Parsed %d hosts.", this.reportHosts.size()));
+	}
+
+	/**
+	 * @return the startDate
+	 */
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * @return the endDate
+	 */
+	public Date getEndDate() {
+		return endDate;
 	}
 
 	/**
@@ -417,6 +516,25 @@ public class Report {
 	 */
 	public ArrayList<ReportHost> getReportHosts() {
 		return reportHosts;
+	}
+	
+	/**
+	 * Returns the number of vulnerabilties less the NONE critical ones (severity = 0). 
+	 * 
+	 * @return	int
+	 */
+	public int getTotalVulnerabilities()  {
+		int c = 0;
+		for(ReportHost host : this.reportHosts)
+			c += host.getOverallSeverity();
+		
+		return c;
+	}
+
+	
+	@Override
+	public int compareTo(Report o) {
+		return this.getEndDate().compareTo(o.getEndDate());
 	}
 	
 }

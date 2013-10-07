@@ -39,10 +39,12 @@ public class StandardLoggingFormatter extends Formatter {
 	 */
 	@Override
 	public String format(LogRecord record) {
-		return String.format("[%s] %s %s\n", 
+		return String.format("[%s] %s %s (%s.%s)\n", 
 				UNIX_DATE_FORMAT.format(new Date()), 
 				record.getLevel().toString().toUpperCase(), 
-				record.getMessage());
+				record.getMessage(),
+				record.getSourceClassName(),
+				record.getSourceMethodName());
 	}
 
 }

@@ -11,7 +11,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.waitwha.logging.LogManager;
 import com.waitwha.nessus.Report.ReportHost;
 import com.waitwha.xml.ElementNotFoundException;
 import com.waitwha.xml.ElementUtils;
@@ -40,7 +39,7 @@ import com.waitwha.xml.ElementUtils;
  * @version $Id$
  * @package com.waitwha.nessus
  */
-public class NessusClientData {
+public class NessusClientData implements Comparable<NessusClientData> {
 
 	private Policy policy;
 	private Report report;
@@ -98,8 +97,6 @@ public class NessusClientData {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		LogManager.APP_NAME = "NessusTools"; //set logfile name.
-		
 		try {
 			NessusClientData scan = NessusClientData.parse(new File(args[0]));
 			for(ReportHost host : scan.getReport().getReportHosts())
@@ -109,6 +106,12 @@ public class NessusClientData {
 			e.printStackTrace();
 			
 		}
+	}
+
+	
+	@Override
+	public int compareTo(NessusClientData o) {
+		return this.getReport().compareTo(o.getReport());
 	}
 
 }

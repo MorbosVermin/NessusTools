@@ -4,15 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * <b>ApacheCheck</b><br/>
  * <small>Copyright (c)2013 Mike Duncan <a href="mailto:mike.duncan@waitwha.com">mike.duncan@waitwha.com</a></small><p />
  * 
+ * <pre>
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -26,6 +24,7 @@ import java.util.logging.Logger;
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * </pre>
  * 
  * TODO Document this class/interface.
  *
@@ -34,9 +33,6 @@ import java.util.logging.Logger;
  * @package com.waitwha.logging
  */
 public class LogManager {
-
-	public static String APP_NAME = "appName";
-	public static Level DEFAULT_LOG_LEVEL = Level.ALL;
 	
 	private static boolean setup = false;
 	
@@ -102,4 +98,7 @@ public class LogManager {
 		return java.util.logging.Logger.getLogger(clazzName);
 	}
 	
+	public static final Logger getLogger(Class<?> clazz)  {
+		return LogManager.getLogger(clazz.getClass().getName());
+	}
 }

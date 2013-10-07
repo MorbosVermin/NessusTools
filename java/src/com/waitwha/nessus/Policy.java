@@ -214,7 +214,7 @@ public class Policy {
 				this.status = ElementUtils.getElementValue(e, "status");
 			
 			}catch(ElementNotFoundException ex)  {
-				log.fine(String.format("Could not find FamilyName or (more likely) status within FamilyItem. This can likely be ignored: %s", ex.getMessage()));
+				//log.fine(String.format("Could not find FamilyName or (more likely) status within FamilyItem. This can likely be ignored: %s", ex.getMessage()));
 				
 			}
 		}

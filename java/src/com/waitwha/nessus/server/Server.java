@@ -3,7 +3,6 @@ package com.waitwha.nessus.server;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +12,8 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import javax.net.ssl.SSLContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,7 +25,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -39,11 +35,9 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.impl.conn.DefaultHttpResponseParserFactory;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Document;
@@ -75,12 +69,13 @@ import com.waitwha.xml.ElementUtils;
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * </pre>
  *
- * Represents a Nessus Server.
+ * Represents a Nessus Server/Scanner.
  *
  * @author Mike Duncan <mike.duncan@waitwha.com>
  * @version $Id$
  * @package com.waitwha.nessus.server
  */
+@SuppressWarnings("deprecation")
 public class Server extends DefaultHttpResponseParserFactory {
 	
 	private static final Logger log = LogManager.getLogger(Server.class.getName());
@@ -424,6 +419,7 @@ public class Server extends DefaultHttpResponseParserFactory {
 					writer.close();
 					
 					scan = NessusClientData.parse(file);
+					EntityUtils.consumeQuietly(entity);
 					
 				}else{
 					log.warning(String.format("[%s] Received HTTP code %d. Could not download report.", post.getURI(), resp.getStatusLine().getStatusCode()));
@@ -479,9 +475,15 @@ public class Server extends DefaultHttpResponseParserFactory {
 			
 			if(uuid.length() == 0)  {
 				System.out.println("Reports: ");
-				for(Report report : server.getReports())
+				ArrayList<Report> reports = server.getReports();
+				for(Report report : reports)
 					System.out.println(String.format(">> %s (%s)", report.getName(), report.getUuid()));
 			
+				if(reports.size() > 0)  {
+					System.out.println();
+					System.out.println("Note: Use -d <uuid> to download a report.");
+				}
+				
 			}else{
 				System.out.print("Downloading report "+ uuid +" -> "+ output +" ...");
 				try {
