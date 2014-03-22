@@ -12,8 +12,8 @@ namespace nessus_reporting
         public enum OutputType
         {
             HTML,
-            PDF,
-            XML,
+            //PDF,
+            //XML,
             CSV
         }
 
@@ -31,12 +31,13 @@ namespace nessus_reporting
                 case OutputType.HTML:
                     return "html";
 
-                case OutputType.PDF:
-                    return "pdf";
+                //case OutputType.PDF:
+                //    return "pdf";
+
+                default:
+                    return "csv";
 
             }
-
-            return "xml";
         }
 
         public static string ReportTypeName(ReportType type)

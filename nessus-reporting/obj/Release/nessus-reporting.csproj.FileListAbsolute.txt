@@ -7,3 +7,12 @@ C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-r
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\obj\Release\nessus-reporting.pdb
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Release\HtmlFooter.htm
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-reporting\bin\Release\HtmlHeader.htm
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\obj\Release\nessus-reporting.csprojResolveAssemblyReference.cache
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\obj\Release\nessus-reporting.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\HtmlFooter.htm
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\HtmlHeader.htm
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\nessus-reporting.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\nessus-reporting.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\nessus-tools.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\bin\Release\nessus-tools.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-reporting\obj\Release\nessus-reporting.pdb

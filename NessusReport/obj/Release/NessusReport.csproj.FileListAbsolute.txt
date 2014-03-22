@@ -1,0 +1,15 @@
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\NessusReport.exe.config
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\HtmlFooter.htm
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\HtmlHeader.htm
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\NessusReport.exe
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\NessusReport.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\nessus-reporting.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\nessus-tools.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\nessus-reporting.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\bin\Release\nessus-tools.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.csprojResolveAssemblyReference.cache
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.Form1.resources
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.Properties.Resources.resources
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.csproj.GenerateResource.Cache
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.exe
+C:\Users\morbo_000\Documents\GitHub\NessusTools\NessusReport\obj\Release\NessusReport.pdb
