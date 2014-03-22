@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nessus-tools", "nessus-tools\nessus-tools.csproj", "{0168C928-31B3-4878-852A-60C8E2D0CAD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Report Visualizer", "Report Visualizer\Report Visualizer.csproj", "{53D209FF-2F57-4FE7-B139-551367488F25}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nessus-reporting", "nessus-reporting\nessus-reporting.csproj", "{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NessusMerge", "NessusMerge\NessusMerge.csproj", "{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,16 +29,6 @@ Global
 		{0168C928-31B3-4878-852A-60C8E2D0CAD3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0168C928-31B3-4878-852A-60C8E2D0CAD3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0168C928-31B3-4878-852A-60C8E2D0CAD3}.Release|x86.ActiveCfg = Release|Any CPU
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Debug|x86.ActiveCfg = Debug|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Debug|x86.Build.0 = Debug|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Release|Any CPU.ActiveCfg = Release|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Release|Mixed Platforms.Build.0 = Release|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Release|x86.ActiveCfg = Release|x86
-		{53D209FF-2F57-4FE7-B139-551367488F25}.Release|x86.Build.0 = Release|x86
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -47,6 +39,16 @@ Global
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{89613FF5-CFBA-4EC4-A9A3-B37B45666AF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{46B2B5D2-1F9C-4EFB-95A3-89757D6D463A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,3 +3,8 @@ C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-t
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\bin\Release\nessus-tools.pdb
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\obj\Release\nessus-tools.dll
 C:\Users\mike.duncan\Documents\Visual Studio 2010\Projects\nessus-tools\nessus-tools\obj\Release\nessus-tools.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-tools\bin\Release\nessus-tools.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-tools\bin\Release\nessus-tools.pdb
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-tools\obj\Release\nessus-tools.csprojResolveAssemblyReference.cache
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-tools\obj\Release\nessus-tools.dll
+C:\Users\morbo_000\Documents\GitHub\NessusTools\nessus-tools\obj\Release\nessus-tools.pdb
